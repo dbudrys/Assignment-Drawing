@@ -203,15 +203,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(view.getId() == R.id.new_button){
 
             AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
-            newDialog.setTitle("New drawing");
-            newDialog.setMessage("Start new drawing (you will lose the current drawing)?");
-            newDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+            newDialog.setTitle("New Sketch");
+            newDialog.setMessage("Start New Drawing?");
+            newDialog.setPositiveButton("YES", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
                     drawView.startNew();
                     dialog.dismiss();
                 }
             });
-            newDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+            newDialog.setNegativeButton("NO", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
                     dialog.cancel();
                 }
@@ -221,9 +221,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }//end of IF
         else if(view.getId()==R.id.save_button){
             AlertDialog.Builder saveDialog = new AlertDialog.Builder(this);
-            saveDialog.setTitle("Save drawing");
-            saveDialog.setMessage("Save drawing to device Gallery?");
-            saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+            saveDialog.setTitle("Save Current Sketch");
+            saveDialog.setMessage("Save This To Decive Gallery?");
+            saveDialog.setPositiveButton("YES", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
                     //save drawing
 
@@ -233,18 +233,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                     //To Complete this action targetSDK  must be 22
-                    String imgSaved = MediaStore.Images.Media.insertImage(
+                    String saveToGallery = MediaStore.Images.Media.insertImage(
                             getContentResolver(), drawView.getDrawingCache(),
                             UUID.randomUUID().toString()+".png", "drawing");
 
 
                     try {
-                        FileOutputStream out = new FileOutputStream(imgSaved);
+                        FileOutputStream out = new FileOutputStream(saveToGallery);
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 90 , out);
-                        Log.i("afsdfsfdsfsd", "asfsdfs");
+                        Log.i("SAVING ", "#################");
                         out.flush();
                         out.close();
                     } catch (Exception e) {
+
+                    }
+
+                    if(saveToGallery != null){
+                        Toast.makeText(getApplicationContext(), "Succesfully Save To Gallery", Toast.LENGTH_SHORT).show();
+
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), "Something Went Terribly Wrong", Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -252,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
             });
-            saveDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+            saveDialog.setNegativeButton("NO", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
                     dialog.cancel();
                 }
@@ -385,4 +394,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-}// end of MainActivit
+}// end of MainActivity
