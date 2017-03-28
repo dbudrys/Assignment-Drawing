@@ -204,6 +204,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //set dialog box for new drawing
         if(view.getId() == R.id.new_button){
 
+
+
             AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
             newDialog.setTitle("New Sketch");
             newDialog.setMessage("Start New Sketch?");
@@ -219,6 +221,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
             newDialog.show();
+
+
 
         }//end of IF
         else if(view.getId()==R.id.save_button){
