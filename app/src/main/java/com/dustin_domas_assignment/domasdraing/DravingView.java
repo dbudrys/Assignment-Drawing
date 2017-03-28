@@ -208,8 +208,12 @@ public class DravingView extends View {
 
         //change Paint object to erase or switch back to drawing
         //PorterDuffXfermode gives clear color for erased
-        if (erase) drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        else drawPaint.setXfermode(null);
+        if (erase) {
+            drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        }
+        else {
+            drawPaint.setXfermode(null);
+        }
 
     }// end of setErase
 

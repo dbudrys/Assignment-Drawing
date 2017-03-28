@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private float smallBrush, mediumBrush, largeBrush;
     Button btn_select;
+    TextView colorSwatch;
     private ImageButton  drawBtn;
     private ImageButton eraseBtn;
     private ImageButton newBtn;
@@ -140,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             colorPalette.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    TextView colorSwatch = (TextView)paintDialog.findViewById(R.id.colorSwatch);
+                     colorSwatch = (TextView)paintDialog.findViewById(R.id.colorSwatch);
                     float cordinate_x = event.getX();
                    float  cordinate_y = event.getY();
 
@@ -176,15 +177,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     int b = Color.blue(pixel);
 
 
+
                    int color = Color.rgb(r,g,b);
-                   // btn_select.setBackgroundColor(color);
-                    btn_select.setTextColor(color);
+
+                    //set backgroud color for btn_select
+                    btn_select.setBackgroundColor(color);
+
+                    //set backgroud color for textview below colorWheel
+                    colorSwatch.setBackgroundColor(color);
+
                     btn_select.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
 
                             int c = btn_select.getCurrentTextColor();
-                            Log.i("+++++++++++++++++",""+c);
+                            Log.i("+++++++++++++++++","Current Color"+c);
                             drawView.setColor(c);
                             paintDialog.dismiss();
                         }
