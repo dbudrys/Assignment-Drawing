@@ -39,7 +39,7 @@ public class DravingView extends View {
     private Paint drawPaint, canvasPaint;
 
     //initial color
-    private int paintColor = 0xFF660000;
+    private int paintColor = 0xff000000;
 
     //Canvas
     private Canvas drawCanvas;
@@ -52,7 +52,7 @@ public class DravingView extends View {
 
     //checks if eraser is on or now
     private boolean erase = false;
-
+    private boolean rectFlag = false;
 
 
 
@@ -80,7 +80,7 @@ public class DravingView extends View {
         lastBrushSize = brushSize;
 
 
-           drawPaint.setStrokeWidth(brushSize);
+        drawPaint.setStrokeWidth(brushSize);
 
 
         //set initial color
@@ -114,11 +114,15 @@ public class DravingView extends View {
     //also need to use this method for custom drawing view
     @Override
     protected void onDraw(Canvas canvas) {
-     // 888888888888888 super.onDraw(canvas);
+
 
         canvas.drawBitmap(canvasBitmap, 0 , 0, canvasPaint);
         canvas.drawPath(drawPath, drawPaint);
 
+        /*if(){
+            canvas.drawRect();
+        }
+*/
     }//end of onDraw
 
     //used to register what is touched on screen
@@ -150,10 +154,10 @@ public class DravingView extends View {
 
     }//end of onTouchEvent
 
-    public void setColor (String newColor){
+    public void setColor (int newColor){
         invalidate();
-
-        paintColor = Color.parseColor(newColor);
+        paintColor = newColor;
+        //paintColor = Color.parseColor(newColor);
         drawPaint.setColor(paintColor);
 
     }//end of setColor
@@ -209,7 +213,9 @@ public class DravingView extends View {
 
     }// end of setErase
 
+    public void setRectangle(){
 
+    }
 
 }//end of Drawingview
 
