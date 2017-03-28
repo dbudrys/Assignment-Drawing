@@ -9,8 +9,6 @@
 
     tools:context="com.dustin_domas_assignment.domasdraing.ColorPicker">
 
-
-
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,12 +35,19 @@
             android:scaleType="center"
 
 
-            />
-        <TextView
-            android:id="@+id/colorSwatch"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:background="#FFFFFF"
-            />
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
     </RelativeLayout> />
+
+    <TextView
+        android:id="@+id/colorSwatch"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="#FFFFFF"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+
 </RelativeLayout>

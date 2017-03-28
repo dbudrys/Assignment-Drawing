@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public boolean onTouch(View v, MotionEvent event) {
                     TextView colorSwatch = (TextView)paintDialog.findViewById(R.id.colorSwatch);
                     float cordinate_x = event.getX();
-                   float  cordinate_y = event.getY();
+                    float  cordinate_y = event.getY();
 
                     float [] xy = new float[] {cordinate_x,cordinate_y};
                     Matrix matrix = new Matrix();
@@ -175,10 +175,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     int g = Color.green(pixel);
                     int b = Color.blue(pixel);
 
-
-                   int color = Color.rgb(r,g,b);
-                   // btn_select.setBackgroundColor(color);
+                    int color = Color.rgb(r,g,b);
+                    // btn_select.setBackgroundColor(color);
                     btn_select.setTextColor(color);
+
+                    colorSwatch.setBackgroundColor(color);
+
                     btn_select.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -202,28 +204,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //set dialog box for new drawing
         if(view.getId() == R.id.new_button){
 
+
+
             AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
-            newDialog.setTitle("New drawing");
-            newDialog.setMessage("Start new drawing (you will lose the current drawing)?");
-            newDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+            newDialog.setTitle("New Sketch");
+            newDialog.setMessage("Start New Sketch?");
+            newDialog.setPositiveButton("YES", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
                     drawView.startNew();
                     dialog.dismiss();
                 }
             });
-            newDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+            newDialog.setNegativeButton("NO", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
                     dialog.cancel();
                 }
             });
             newDialog.show();
 
+
+
         }//end of IF
         else if(view.getId()==R.id.save_button){
             AlertDialog.Builder saveDialog = new AlertDialog.Builder(this);
-            saveDialog.setTitle("Save drawing");
-            saveDialog.setMessage("Save drawing to device Gallery?");
-            saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+            saveDialog.setTitle("Save Sketch");
+            saveDialog.setMessage("Save Sketch To Divice Gallery?");
+            saveDialog.setPositiveButton("YES", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
                     //save drawing
 
@@ -252,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
             });
-            saveDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+            saveDialog.setNegativeButton("NO", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
                     dialog.cancel();
                 }
