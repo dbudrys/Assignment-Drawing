@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private float smallBrush, mediumBrush, largeBrush;
     Button btn_select;
-    TextView colorSwatch;
     private ImageButton  drawBtn;
     private ImageButton eraseBtn;
     private ImageButton newBtn;
@@ -141,9 +140,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             colorPalette.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                     colorSwatch = (TextView)paintDialog.findViewById(R.id.colorSwatch);
+                    TextView colorSwatch = (TextView)paintDialog.findViewById(R.id.colorSwatch);
                     float cordinate_x = event.getX();
-                   float  cordinate_y = event.getY();
+                    float  cordinate_y = event.getY();
 
                     float [] xy = new float[] {cordinate_x,cordinate_y};
                     Matrix matrix = new Matrix();
@@ -177,21 +176,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     int b = Color.blue(pixel);
 
 
-
-                   int color = Color.rgb(r,g,b);
-
-                    //set backgroud color for btn_select
-                    btn_select.setBackgroundColor(color);
-
-                    //set backgroud color for textview below colorWheel
-                    colorSwatch.setBackgroundColor(color);
-
+                    int color = Color.rgb(r,g,b);
+                    // btn_select.setBackgroundColor(color);
+                    btn_select.setTextColor(color);
                     btn_select.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
 
                             int c = btn_select.getCurrentTextColor();
-                            Log.i("+++++++++++++++++","Current Color"+c);
+                            Log.i("+++++++++++++++++",""+c);
                             drawView.setColor(c);
                             paintDialog.dismiss();
                         }
@@ -210,15 +203,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(view.getId() == R.id.new_button){
 
             AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
-            newDialog.setTitle("New Sketch");
-            newDialog.setMessage("Start New Drawing?");
-            newDialog.setPositiveButton("YES", new DialogInterface.OnClickListener(){
+            newDialog.setTitle("New drawing");
+            newDialog.setMessage("Start new drawing (you will lose the current drawing)?");
+            newDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
                     drawView.startNew();
                     dialog.dismiss();
                 }
             });
-            newDialog.setNegativeButton("NO", new DialogInterface.OnClickListener(){
+            newDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
                     dialog.cancel();
                 }
@@ -228,9 +221,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }//end of IF
         else if(view.getId()==R.id.save_button){
             AlertDialog.Builder saveDialog = new AlertDialog.Builder(this);
-            saveDialog.setTitle("Save Current Sketch");
-            saveDialog.setMessage("Save This To Decive Gallery?");
-            saveDialog.setPositiveButton("YES", new DialogInterface.OnClickListener(){
+            saveDialog.setTitle("Save drawing");
+            saveDialog.setMessage("Save drawing to device Gallery?");
+            saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
                     //save drawing
 
@@ -240,27 +233,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                     //To Complete this action targetSDK  must be 22
-                    String saveToGallery = MediaStore.Images.Media.insertImage(
+                    String imgSaved = MediaStore.Images.Media.insertImage(
                             getContentResolver(), drawView.getDrawingCache(),
                             UUID.randomUUID().toString()+".png", "drawing");
 
 
                     try {
-                        FileOutputStream out = new FileOutputStream(saveToGallery);
+                        FileOutputStream out = new FileOutputStream(imgSaved);
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 90 , out);
-                        Log.i("SAVING ", "#################");
+                        Log.i("afsdfsfdsfsd", "asfsdfs");
                         out.flush();
                         out.close();
                     } catch (Exception e) {
-
-                    }
-
-                    if(saveToGallery != null){
-                        Toast.makeText(getApplicationContext(), "Succesfully Save To Gallery", Toast.LENGTH_SHORT).show();
-
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(), "Something Went Terribly Wrong", Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -268,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
             });
-            saveDialog.setNegativeButton("NO", new DialogInterface.OnClickListener(){
+            saveDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
                     dialog.cancel();
                 }
@@ -401,4 +385,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-}// end of MainActivity
+}// end of MainActivit
