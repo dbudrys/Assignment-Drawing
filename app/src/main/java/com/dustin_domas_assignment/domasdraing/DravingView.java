@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.util.AttributeSet;
@@ -53,8 +54,7 @@ public class DravingView extends View {
     //checks if eraser is on or now
     private boolean erase = false;
     private boolean rectFlag = false;
-
-
+    private Uri imageURI;
 
 
     // this constructor used when creating view through XML
@@ -221,5 +221,12 @@ public class DravingView extends View {
 
     }
 
+
+
+    //suposse
+    public void setImageURI(Uri imageURI) {
+        this.imageURI = imageURI;
+      
+    }
 }//end of Drawingview
 
