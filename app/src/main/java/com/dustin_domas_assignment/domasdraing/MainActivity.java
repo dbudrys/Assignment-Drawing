@@ -1,5 +1,6 @@
 package com.dustin_domas_assignment.domasdraing;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -17,8 +18,10 @@ import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -47,6 +50,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton newBtn;
     private ImageButton saveBtn;
     private ImageButton paintPicker;
+
+
+
+    Activity activity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,17 +62,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         drawView = (DravingView)findViewById(R.id.drawing);
-
-        //need to retreive layout in order to get colors
-        //LinearLayout paintLayout = (LinearLayout) findViewById(R.id.paint_colors);
-
-        //possition of the color in  Layour
-        //currPaint = (ImageButton) paintLayout.getChildAt(0);
-
-
-        //this will give a darker color around selected paint
-//       currPaint.setImageDrawable(getResources().getDrawable((R.drawable.paint_pressed)));
-
 
         //declare brush sizes
         smallBrush = getResources().getInteger(R.integer.small_size);
@@ -96,33 +93,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }//end of onCreate
 
-    //will allow to use color of my choice
-
-    /*public void paintClicked (View view){
-
-        drawView.setErase(false);
-
-
-        //set brush size to previous size
-        drawView.setBrushSize(drawView.getLastBrushSize());
-
-        //checking if user have clicked anything
-        if(view != currPaint) {
-            ImageButton imgView = (ImageButton)view;
-            String color  = view.getTag().toString();
-
-            drawView.setColor(color);
-
-            //updating UI to refelct the new chose color
-            imgView.setImageDrawable(getResources().getDrawable(R.drawable.paint_pressed));
-            currPaint.setImageDrawable(getResources().getDrawable(R.drawable.paint));
-            currPaint=(ImageButton)view;
-
-        }//end if
-
-
-    }//end of paintClicked
-*/
 
     @Override
     public void onClick(View view) {
@@ -205,31 +175,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(view.getId() == R.id.new_button){
 
 
-
-            AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
-            newDialog.setTitle("New Sketch");
-            newDialog.setMessage("Start New Sketch?");
-            newDialog.setPositiveButton("YES", new DialogInterface.OnClickListener(){
+            //Display custom Dialog Box
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this,R.style.DialogBox);
+            builder.setMessage("Start New Sketch?");
+            builder.setPositiveButton("YES", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
                     drawView.startNew();
                     dialog.dismiss();
                 }
             });
-            newDialog.setNegativeButton("NO", new DialogInterface.OnClickListener(){
+            builder.setNegativeButton("NO", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
                     dialog.cancel();
                 }
             });
-            newDialog.show();
+            builder.show();
 
 
 
         }//end of IF
         else if(view.getId()==R.id.save_button){
-            AlertDialog.Builder saveDialog = new AlertDialog.Builder(this);
-            saveDialog.setTitle("Save Sketch");
-            saveDialog.setMessage("Save Sketch To Divice Gallery?");
-            saveDialog.setPositiveButton("YES", new DialogInterface.OnClickListener(){
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this,R.style.DialogBox);
+            builder.setMessage("Save Sketch to Divice Gallery");
+            builder.setPositiveButton("YES", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
                     //save drawing
 
@@ -247,26 +215,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     try {
                         FileOutputStream out = new FileOutputStream(imgSaved);
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 90 , out);
-                        Log.i("afsdfsfdsfsd", "asfsdfs");
+                        Log.i("Saving Gallery", "++++++++++++++++++++");
                         out.flush();
                         out.close();
                     } catch (Exception e) {
 
                     }
 
-
-
                 }
             });
-            saveDialog.setNegativeButton("NO", new DialogInterface.OnClickListener(){
+            builder.setNegativeButton("NO", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
                     dialog.cancel();
                 }
             });
-            saveDialog.show();
-
-
-
+            builder.show();
 
         }// end of IF ELSE
 
@@ -390,5 +353,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-
 }// end of MainActivit
+
+
+
