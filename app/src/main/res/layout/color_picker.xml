@@ -1,53 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="350dp"
     android:layout_gravity="center"
 
-    tools:context="com.dustin_domas_assignment.domasdraing.ColorPicker">
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/btn_select"
-            android:layout_width="100dp"
-            android:background="@android:color/white"
-            android:clickable="true"
-            android:text="Press HERE When Completed"
-            android:textColor="#5DBCD2"
-            android:textStyle="bold"
-            android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true" />
-
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/colorWheel"
-            android:scaleType="center"
-
-
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
-
-    </RelativeLayout> />
-
-    <TextView
-        android:id="@+id/colorSwatch"
-        android:layout_width="100dp"
+    tools:context="com.dustin_domas_assignment.domasdraing.ColorPicker"
+    android:weightSum="1">
+    <Button
+        android:id="@+id/btn_select"
+        android:layout_width="match_parent"
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:text="Press HERE When Completed"
+        android:textColor="#5DBCD2"
+        android:textStyle="bold"
         android:layout_height="50dp"
-        android:background="#FFFFFF"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
 
 
-</RelativeLayout>
+        <SeekBar
+            android:id="@+id/red_seekbar"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/btn_select"
+            android:layout_margin="10dp" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <SeekBar
+            android:id="@+id/green_seekbar"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignBottom="@+id/red_seekbar"
+            android:layout_below="@id/red_seekbar"
+            android:layout_margin="10dp" />
+
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <SeekBar
+            android:id="@+id/blue_seekbar"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignBottom="@+id/green_seekbar"
+            android:layout_below="@id/green_seekbar"
+            android:layout_margin="10dp" />
+    </LinearLayout>
+    <![CDATA[ />
+
+
+]]>
+</LinearLayout>
