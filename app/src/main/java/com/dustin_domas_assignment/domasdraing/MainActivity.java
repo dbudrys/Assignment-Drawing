@@ -12,16 +12,12 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
-import android.net.Uri;
 import android.os.Environment;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,10 +26,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.util.SparseArray;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Random;
@@ -55,15 +50,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton newBtn;
     private ImageButton saveBtn;
     private ImageButton paintPicker;
-    private ImageButton editBtn;
-
-
-
-    private static final int PICK_IMAGE = 100;
-    Uri imageUri;
-
-
-
 
 
 
@@ -104,11 +90,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         eraseBtn.setOnClickListener(this);
 
 
-        //declare edit button
-        editBtn =(ImageButton) findViewById(R.id.edit_button);
-        editBtn.setOnClickListener(this);
-
-
 
     }//end of onCreate
 
@@ -120,17 +101,72 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             final Dialog paintDialog = new Dialog(this);
             paintDialog.setTitle("Color Wheel");
 
-            SeekBar rSeek;
-            SeekBar gSeek;
-            SeekBar bSeek;
-
             paintDialog.setContentView(R.layout.color_picker);
 
 
-           // ImageView colorPalette = (ImageView)paintDialog.findViewById(R.id.colorWheel);
-           // colorPalette.setImageResource(R.drawable.colorwheel);
+            ImageView colorPalette = (ImageView)paintDialog.findViewById(R.id.colorWheel);
+            colorPalette.setImageResource(R.drawable.colorwheel);
             btn_select = (Button) paintDialog.findViewById(R.id.btn_select);
+            colorPalette.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    TextView colorSwatch = (TextView)paintDialog.findViewById(R.id.colorSwatch);
+                    float cordinate_x = event.getX();
+                    float  cordinate_y = event.getY();
 
+                    float [] xy = new float[] {cordinate_x,cordinate_y};
+                    Matrix matrix = new Matrix();
+                    ((ImageView)v).getImageMatrix().invert(matrix);
+
+                    matrix.mapPoints(xy);
+                    int x = Integer.valueOf((int)xy[0]);
+                    int y = Integer.valueOf((int)xy[1]);
+
+                    Drawable imgDrawable = ((ImageView)v).getDrawable();
+                    Bitmap bitmap = ((BitmapDrawable)imgDrawable).getBitmap();
+                    int bitW = bitmap.getWidth()-1;
+                    int bitH = bitmap.getHeight()-1;
+                    if(x < 0){
+                        x = 0;
+                    }else if(x > bitW ){
+                        x = bitW ;
+                    }
+
+                    if(y < 0){
+                        y = 0;
+                    }else if(y > bitH ){
+                        y = bitH ;
+                    }
+                    int pixel = bitmap.getPixel(x,y);
+
+                    //pixel = bitsCanvas.getPixel(cordinate_x,cordinate_y);
+
+                    int r = Color.red(pixel);
+                    int g = Color.green(pixel);
+                    int b = Color.blue(pixel);
+
+                    int color = Color.rgb(r,g,b);
+                    // btn_select.setBackgroundColor(color);
+                    btn_select.setTextColor(color);
+
+                    colorSwatch.setBackgroundColor(color);
+
+                    btn_select.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            int c = btn_select.getCurrentTextColor();
+                            Log.i("+++++++++++++++++",""+c);
+                            drawView.setColor(c);
+                            paintDialog.dismiss();
+                        }
+                    });
+
+                    return true;
+
+                }
+
+            });
             paintDialog.show();
 
         }
@@ -139,18 +175,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(view.getId() == R.id.new_button){
 
 
-
-
-            AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
-            newDialog.setTitle("New Drawing");
-            newDialog.setMessage("Start New Drawing?");
-            newDialog.setPositiveButton("YES", new DialogInterface.OnClickListener(){
-
             //Display custom Dialog Box
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this,R.style.DialogBox);
             builder.setMessage("Start New Sketch?");
             builder.setPositiveButton("YES", new DialogInterface.OnClickListener(){
-
                 public void onClick(DialogInterface dialog, int which){
                     drawView.startNew();
                     dialog.dismiss();
@@ -298,6 +326,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             });
 
 
+
+
+
+
             ImageButton erase_large = (ImageButton)brushDialog.findViewById(R.id.large_brush);
             erase_large.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -317,37 +349,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-        //if edit button is selected
-        if(view.getId() == R.id.edit_button){
-            openGallery();
-
-
-        }//end if
-
-
     }//end of OnClick
 
 
 
-
-
-    //Method to open gallery
-    private void openGallery() {
-
-        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(gallery,PICK_IMAGE);
-    }//End of openGallery
-
-    //method to past Image location
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
-            imageUri = data.getData();
-            drawView.setImageURI(imageUri);
-        }
-    }
 }// end of MainActivit
 
 

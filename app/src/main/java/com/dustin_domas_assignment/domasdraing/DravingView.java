@@ -56,6 +56,8 @@ public class DravingView extends View {
     private boolean rectFlag = false;
     private Uri imageURI;
 
+    private Bitmap imageBitmap;
+
 
     // this constructor used when creating view through XML
     public DravingView(Context context, AttributeSet attrs) {
@@ -147,7 +149,7 @@ public class DravingView extends View {
                 return false;
         }
 
-        //calling invalidate() will cause onDraw mathod to activate
+        //calling invalidate() will cause onDraw method to activate
         invalidate();
         return true;
 
@@ -226,7 +228,24 @@ public class DravingView extends View {
     //suposse
     public void setImageURI(Uri imageURI) {
         this.imageURI = imageURI;
-      
+
     }
+
+    public void setImageBitmap(Bitmap imageBitmap) {
+       // this.imageBitmap = imageBitmap;
+
+        canvasBitmap = imageBitmap;
+        drawCanvas = new Canvas(canvasBitmap);
+        invalidate();
+    }
+
+
+
+    public void setCanvasBitmap(Bitmap bmp) {
+        canvasBitmap = bmp;
+        drawCanvas = new Canvas(canvasBitmap);
+        invalidate();
+    }
+
 }//end of Drawingview
 
