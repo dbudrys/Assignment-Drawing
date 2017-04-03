@@ -240,12 +240,13 @@ public class DravingView extends View {
     }
 
 
-
+/********
     public void setCanvasBitmap(Bitmap bmp) {
         canvasBitmap = bmp;
         drawCanvas = new Canvas(canvasBitmap);
         invalidate();
     }
+ *******/
 
 }//end of Drawingview
 

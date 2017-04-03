@@ -1,37 +1,29 @@
 package com.dustin_domas_assignment.domasdraing;
 
-import android.app.Activity;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Random;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
@@ -39,13 +31,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //create variale to access DravingView
     private DravingView drawView;
-    private ImageButton currPaint;
+
     private ImageButton drawbtn;
-    ColorPicker picker;
+
 
     private float smallBrush, mediumBrush, largeBrush;
     Button btn_select;
-    private ImageButton  drawBtn;
     private ImageButton eraseBtn;
     private ImageButton newBtn;
     private ImageButton saveBtn;
@@ -53,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-    Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +82,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }//end of onCreate
+
+
+
+
+
+
 
 
     @Override
@@ -239,13 +235,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
             //making bursh Dialog Box
-            final Dialog brushDialog = new Dialog(this);
-            brushDialog.setTitle("Brush size:");
+            final Dialog brushChoice = new Dialog(this);
+            brushChoice.setTitle("Brush size:");
 
-            brushDialog.setContentView(R.layout.brush_chooser);
+            brushChoice.setContentView(R.layout.brush_chooser);
 
             //declare small_button and create logo
-            ImageButton smallBtn = (ImageButton)brushDialog.findViewById(R.id.small_brush);
+            ImageButton smallBtn = (ImageButton)brushChoice.findViewById(R.id.small_brush);
             smallBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -254,13 +250,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     //will set eraser back to false
                     drawView.setErase(false);
-                    brushDialog.dismiss();
+                    brushChoice.dismiss();
                 }
             });
 
 
             //declare medium_button and create logo
-            ImageButton mediumBtn = (ImageButton)brushDialog.findViewById(R.id.medium_brush);
+            ImageButton mediumBtn = (ImageButton)brushChoice.findViewById(R.id.medium_brush);
             mediumBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -269,12 +265,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     //will set eraser back to false
                     drawView.setErase(false);
-                    brushDialog.dismiss();
+                    brushChoice.dismiss();
                 }
             });
 
             //declare large_button and create logo
-            ImageButton largeBtn = (ImageButton)brushDialog.findViewById(R.id.large_brush);
+            ImageButton largeBtn = (ImageButton)brushChoice.findViewById(R.id.large_brush);
             largeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -283,44 +279,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     //will set eraser back to false
                     drawView.setErase(false);
-                    brushDialog.dismiss();
+                    brushChoice.dismiss();
                 }
             });
 
 
 
-            brushDialog.show();
+            brushChoice.show();
         }//end of if
 
 
         //Condition for erase_button
         else if (view.getId() == R.id.eraser_button){
 
-            final Dialog brushDialog = new Dialog (this);
-            brushDialog.setTitle("Eraser size: ");
-            brushDialog.setContentView(R.layout.brush_chooser);
+            final Dialog brushChoice = new Dialog (this);
+            brushChoice.setTitle("Eraser size: ");
+            brushChoice.setContentView(R.layout.brush_chooser);
 
-            ImageButton erase_small = (ImageButton)brushDialog.findViewById(R.id.small_brush);
-            erase_small.setOnClickListener(new View.OnClickListener() {
+            ImageButton eraserS = (ImageButton)brushChoice.findViewById(R.id.small_brush);
+            eraserS.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     drawView.setErase(true);
                     drawView.setBrushSize(smallBrush);
 
 
-                    brushDialog.dismiss();
+                    brushChoice.dismiss();
                 }
             });
 
 
-            ImageButton erase_medium = (ImageButton)brushDialog.findViewById(R.id.medium_brush);
-            erase_medium.setOnClickListener(new View.OnClickListener() {
+            ImageButton eraserM = (ImageButton)brushChoice.findViewById(R.id.medium_brush);
+            eraserM.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     drawView.setErase(true);
                     drawView.setBrushSize(mediumBrush);
 
-                    brushDialog.dismiss();
+                    brushChoice.dismiss();
 
                 }
             });
@@ -330,20 +326,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-            ImageButton erase_large = (ImageButton)brushDialog.findViewById(R.id.large_brush);
-            erase_large.setOnClickListener(new View.OnClickListener() {
+            ImageButton eraseL = (ImageButton)brushChoice.findViewById(R.id.large_brush);
+            eraseL.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     drawView.setErase(true);
                     drawView.setBrushSize(largeBrush);
 
 
-                    brushDialog.dismiss();
+                    brushChoice.dismiss();
                 }
             });
 
 
-            brushDialog.show();
+            brushChoice.show();
 
         }// end of if Else
 
@@ -353,7 +349,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-}// end of MainActivit
+    //Create action bar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    //Set up buttons for action bar
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == R.id.about){
+
+            ((TextView)
+                    new AlertDialog.Builder(MainActivity.this,R.style.DialogBox)
+                            .setTitle("Developers Of Drawing101 ")
+                            .setMessage(Html.fromHtml("<h2>Dustin Lobato</h2>"
+                                    + "<h2>Domas Budrys</h2>"
+                                    +"<br>"
+                                    + "<h3>Icons:</h3>"
+                                    + "<font color='#FF7F27'><a href=\"https://icons8.com/android-icons/\">icons8.com</a> </font>"
+                                    + "<h3>Code Credit:</h3>"
+                                    + "<font color='#FF7F27'><a href=\"https://code.tutsplus.com/tutorials/android-sdk-create-a-drawing-app-touch-interaction--mobile-19202\">Tutplus Tutorial</a> </font>"
+                                    +"<br>"
+                                    + "<font color='#FF7F27'><a href=\"http://stackoverflow.com/questions/10095335/android-link-in-dialog\">Stackoverflow</a> </font>"
+                            ))
+                            .show()
+
+                            .findViewById(android.R.id.message))
+                    .setMovementMethod(LinkMovementMethod.getInstance());
+
+
+        }// end of if
+        else if (item.getItemId() == R.id.exit){
+
+            finish();
+            System.exit(0);
+        }// end of else if
+
+        return(super.onOptionsItemSelected(item));
+    }
+
+
+
+
+}// end of MainActivity
 
 
 
