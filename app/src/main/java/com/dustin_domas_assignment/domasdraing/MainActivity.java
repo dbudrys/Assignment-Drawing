@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             builder.setMessage("Start New Sketch?");
             builder.setPositiveButton("YES", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
-                    drawView.startNew();
+                    drawView.setStartNew();
                     dialog.dismiss();
                 }
             });

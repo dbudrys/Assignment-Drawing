@@ -1,30 +1,17 @@
 package com.dustin_domas_assignment.domasdraing;
 
 import android.content.Context;
-import android.graphics.Color;
+
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.net.Uri;
-import android.os.Bundle;
-
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-
-
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.view.MotionEvent;
-
-import android.util.TypedValue;
-
-
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
 
 
@@ -53,10 +40,6 @@ public class DravingView extends View {
 
     //checks if eraser is on or now
     private boolean erase = false;
-    private boolean rectFlag = false;
-    private Uri imageURI;
-
-    private Bitmap imageBitmap;
 
 
     // this constructor used when creating view through XML
@@ -121,10 +104,7 @@ public class DravingView extends View {
         canvas.drawBitmap(canvasBitmap, 0 , 0, canvasPaint);
         canvas.drawPath(drawPath, drawPaint);
 
-        /*if(){
-            canvas.drawRect();
-        }
-*/
+
     }//end of onDraw
 
     //used to register what is touched on screen
@@ -134,20 +114,22 @@ public class DravingView extends View {
         float touchX = event.getX();
         float touchY = event.getY();
 
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                drawPath.moveTo(touchX, touchY);
-                break;
-            case MotionEvent.ACTION_MOVE:
-                drawPath.lineTo(touchX, touchY);
-                break;
-            case MotionEvent.ACTION_UP:
-                drawCanvas.drawPath(drawPath, drawPaint);
-                drawPath.reset();
-                break;
-            default:
-                return false;
+
+        if (event.getAction() == MotionEvent.ACTION_DOWN){
+            drawPath.moveTo(touchX, touchY);
+
         }
+        else if (event.getAction() == MotionEvent.ACTION_MOVE){
+            drawPath.lineTo(touchX, touchY);
+        }
+        else if  (event.getAction() == MotionEvent.ACTION_UP) {
+            drawCanvas.drawPath(drawPath, drawPaint);
+            drawPath.reset();
+        }
+        else {
+            return false;
+        }
+
 
         //calling invalidate() will cause onDraw method to activate
         invalidate();
@@ -187,17 +169,11 @@ public class DravingView extends View {
 
     }// end of get lastBrushSize
 
-    public float getLastBrushSize () {
-
-        return lastBrushSize;
-    }// end of float getLastBrush
-
-
 
 
 
     //clear canvas for new drawing
-    public void startNew(){
+    public void setStartNew(){
         drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
         invalidate();
 
@@ -219,34 +195,6 @@ public class DravingView extends View {
 
     }// end of setErase
 
-    public void setRectangle(){
-
-    }
-
-
-
-    //suposse
-    public void setImageURI(Uri imageURI) {
-        this.imageURI = imageURI;
-
-    }
-
-    public void setImageBitmap(Bitmap imageBitmap) {
-       // this.imageBitmap = imageBitmap;
-
-        canvasBitmap = imageBitmap;
-        drawCanvas = new Canvas(canvasBitmap);
-        invalidate();
-    }
-
-
-/********
-    public void setCanvasBitmap(Bitmap bmp) {
-        canvasBitmap = bmp;
-        drawCanvas = new Canvas(canvasBitmap);
-        invalidate();
-    }
- *******/
 
 }//end of Drawingview
 
